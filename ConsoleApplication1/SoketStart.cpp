@@ -3,10 +3,10 @@
 
 int main(int argc, char * argv[])
 {
-	SOCKET sock; //소켓 생성 구조체.
+	SOCKET sock,clientsock; //소켓 생성 구조체. 소켓과 클라이언트 소켓 핸들.
 	WSADATA wsa; //윈속 초기화 구조체.
-
-	struct sockaddr_in sockinfo;	//소켓 주소 구조체 선언.
+	struct sockaddr_in sockinfo,clientinfo;	//소켓,클라이언트소켓 주소 구조체 선언.
+	int clientsize;	//클라이언트 size를 담을 변수.
 	
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		printf("초기화 실패\n");
@@ -25,6 +25,18 @@ int main(int argc, char * argv[])
 	if (bind(sock, (SOCKADDR*)&sockinfo, sizeof(sockinfo)) == SOCKET_ERROR)
 		printf("bind 실패");
 		
+	//int listen (SOCKET, backlog)  //SOCKET은 소켓 핸들 값, backlog는 통로 값. 정해진 값은 없으니 5정도만 넣으면 동시에 5개 통로가 개설됨.
+	if (listen(sock, 5) == SOCKET_ERROR) 
+		printf("대기열 실패");
+
+	clientsize = sizeof(clientinfo); //size값을 변수에 저장.
+
+	printf("클라이언트로부터 접속을 기다리고 있습니다...\n");
+
+	clientsock = accept(sock, (SOCKADDR*)& clientinfo, &clientsize); //클라이언트 소켓 핸들 값을 저장.
+
+	if (clientsock == INVALID_SOCKET)	//클라이언트 소켓  확인.
+		printf("클라이언트 소켓 연결 실패");
 	
 	printf("성공\n");
 
