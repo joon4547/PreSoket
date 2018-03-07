@@ -7,6 +7,7 @@ int main(int argc, char * argv[])
 	WSADATA wsa; //윈속 초기화 구조체.
 	struct sockaddr_in sockinfo,clientinfo;	//소켓,클라이언트소켓 주소 구조체 선언.
 	int clientsize;	//클라이언트 size를 담을 변수.
+	char message[] = "success";
 	
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		printf("초기화 실패\n");
@@ -37,8 +38,15 @@ int main(int argc, char * argv[])
 
 	if (clientsock == INVALID_SOCKET)	//클라이언트 소켓  확인.
 		printf("클라이언트 소켓 연결 실패");
-	
+
+	//send (int sockfd, const void *buf, size_t len, int flags)
+	//send (전송할 소켓 디스크립터, 전송할 데이터 포인터, 데이터 길이, 함수 플래그)
+	send(clientsock, message, sizeof(message), 0);
+
 	printf("성공\n");
+
+	closesocket(sock);	//프로그램을 끝낼때는 만들어 놓은 소켓을 제거해야 한다. 2개의 소켓 해제
+	closesocket(clientsock);
 
 	WSACleanup();
 
