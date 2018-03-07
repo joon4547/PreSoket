@@ -7,7 +7,7 @@ int main(int argc, char * argv[])
 	WSADATA wsa; //윈속 초기화 구조체.
 	struct sockaddr_in sockinfo,clientinfo;	//소켓,클라이언트소켓 주소 구조체 선언.
 	int clientsize;	//클라이언트 size를 담을 변수.
-	char message[] = "success";
+	char message[] = "hello";
 	
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		printf("초기화 실패\n");
