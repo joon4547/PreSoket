@@ -1,2 +1,9 @@
 *.tlog
 Debug/
+*.sln
+*.opensdf
+*.sdf
+*.suo
+*.vcxproj
+*.filters
+*.user
